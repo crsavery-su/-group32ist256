@@ -1,0 +1,380 @@
+import webbrowser
+import plotly as py
+import cufflinks as cf
+import pandas as pd
+import numpy as np
+
+py.tools.set_credentials_file(username='callsopp', api_key='scuwvPkTkpahA94bJObX')
+
+hd= 0
+cancer = 0
+copd = 0
+stroke = 0
+diab = 0
+kid = 0
+alz = 0
+cld = 0
+
+hd_graph_value=0
+cancer_graph_value=0
+copd_graph_value=0
+stroke_graph_value=0
+diab_graph_value=0
+kid_graph_value=0
+
+cld_graph_value=0
+
+try
+    age = int(input("Please enter your age in the form of an integer: "))
+    sex = input("Please enter your sex ('M' or 'F'): " ).upper()
+    overweight = input("Are you overweight? ('Y' or 'N'): ").upper
+    obese = input("Are you obese? ('Y' or 'N'): ").upper()
+    hbp = input("Do you have high blood pressure? ('Y' or 'N'): ").upper()
+    hc = input("Do you have high cholesterol? ('Y' or 'N'): ").upper()
+    active = input("Are you active? ('Y' or 'N'): ").upper()
+    badheart = input("Do you have, or have a history, of heart problems? ('Y' or 'N'): ").upper()
+    smoke = input("Do you smoke? ('Y' or 'N'): ").upper()
+    drunk = input("Do you abuse alcohol? ('Y' or 'N'): ").upper()
+    drugs = input("Do you abuse drugs? ('Y' or 'N'): ").upper()
+    radi = input("Are you, or have you been, exposed to large amounts of radiation? ('Y' or 'N'): ").upper()
+    tox = input("Are you, or have you been, exposed to large amounts of toxins? ('Y' or 'N'): ").upper()
+    hdfam = input("You do have a family history of Heart Disease? ('Y' or 'N'): ").upper()
+    cancerfam = input("You do have a family history of Cancer? ('Y' or 'N'): ").upper()
+    copdfam = input("You do have a family history of Chronic Lower Respiratory Disease? ('Y' or 'N'): ").upper()
+    strokefam = input("You do have a family history of Stroke? ('Y' or 'N'): ").upper()
+    diabfam = input("You do have a family history of Diabetes? ('Y' or 'N'): ").upper()
+    kidfam = input("You do have a family history of Kidney Disease? ('Y' or 'N'): ").upper()
+    alzfam = input("You do have a family history of Alzheimer's? ('Y' or 'N'): ").upper()
+    cldfam = input("You do have a family history of Chronic Liver Disease? ('Y' or 'N'): ").upper()
+    suffdiab = input("Do you currently suffer from diabetes? ('Y' or 'N'): ").upper()
+    suffauto = input("Do you currently suffer from an autoimmune diease? ('Y' or 'N'): ").upper()
+    interact = input("Do you maintain regular interaction with others? ('Y' or 'N') ")
+except ValueError: 
+    print("Invaild entry, please try again!")
+    
+if age > 45 and age <65:
+    diab = diab + 1
+    
+if age > 64:
+    diab = diab + 2
+    copd = copd + 1
+    cancer = cancer + 1
+    
+if sex == 'M':
+    diab = diab + 1
+    
+if sex == 'F':
+    alz = alz + 1
+    
+if overweight == 'Y':
+    hd= hd + 1
+    cancer = cancer + 1
+    copd = copd + 1
+    stroke = stroke + 1
+    diab = diab + 1
+    kid = kid + 1
+    alz = alz + 1
+    cld = cld + 1
+    
+if obese == 'Y':
+    hd= hd + 2
+    cancer = cancer + 2
+    copd = copd + 2
+    stroke = stroke + 2
+    diab = diab + 2
+    kid = kid + 2
+    cld = cld + 2
+    
+if smoke == 'Y':
+    hd= hd + 1
+    cancer = cancer + 1
+    copd = copd + 1
+    stroke = stroke + 1
+    diab = diab + 1
+    kid = kid + 1
+    alz = alz + 1
+    cld = cld + 1
+
+if drugs == 'Y':
+    cld = cld + 1
+    cancer = cancer + 1
+    
+if drunk == 'Y':
+    cld = cld + 1
+    cancer = cancer + 1
+
+if hbp == 'Y':
+    hd = hd + 1
+    diab = diab + 1
+    stroke = stroke + 1
+
+if hc == 'Y':
+    hd = hd + 1
+    diab = diab + 1
+
+if active == 'N':
+    hd= hd + 1
+    cancer = cancer + 1
+    copd = copd + 1
+    stroke = stroke + 1
+    diab = diab + 1
+    kid = kid + 1
+    alz = alz + 1
+    cld = cld + 1
+    
+if badheart == 'Y':
+    stroke = stroke + 1
+    
+if radi == 'Y':
+    cancer = cancer + 1
+    
+if tox == 'Y':
+    cld = cld + 1
+    
+if suffdiab == 'Y':
+    stroke = stroke + 1
+    hd = hd + 1
+
+if suffauto == 'Y':
+    cld = cld + 1
+
+if hdfam == 'Y':
+    hd == hd + 1
+    
+if cancerfam == 'Y':
+    cancer = cancer + 1
+    
+if copdfam == 'Y':
+    copd = copd +1 
+    
+if strokefam == 'Y':
+    stroke = stroke + 1
+    
+if diabfam == 'Y':
+    diab = diab + 1
+    
+if alzfam == 'Y':
+    alz = alz + 1
+    
+if cldfam == 'Y':
+    cld == cld + 1
+    
+if interact == 'N':
+    alz = alz + 1
+
+if hd <1:
+    hd_risk = "Very Low"
+if hd >0 and hd <3:
+    hd_risk = "Low"
+if hd >2 and hd <5:
+    hd_risk = "Moderate"
+if hd >4:
+    hd_risk = "High"
+
+if cancer <1:
+    cancer_risk = "Very Low"
+if cancer >0 and cancer <3:
+    cancer_risk = "Low"
+if cancer >2 and cancer <6:
+    cancer_risk = "Moderate"
+if cancer >5:
+    cancer_risk = "High"
+
+if copd < 1:
+    copd_risk = "Very Low"
+if copd >0 and copd <2:
+    copd_risk = "Low"
+if copd >1 and copd <4:
+    copd_risk = "Moderate"
+if copd >3:
+    copd_risk = "High"
+    
+if stroke <1:
+    stroke_risk = "Very Low"
+if stroke >0 and stroke <3:
+    stroke_risk = "Low"
+if stroke >2 and stroke <6:
+    stroke_risk = "Moderate"
+if stroke >5:
+    stroke_risk = "High"
+    
+if diab <1:
+    diab_risk = "Very Low"
+if diab >0 and diab <3:
+    diab_risk = "Low"
+if diab >2 and diab <5:
+    diab_risk = "Moderate"
+if diab >4:
+    diab_risk = "High" 
+    
+if kid <1:
+    kid_risk = "Very Low"
+if kid >0 and kid <2:
+    kid_risk = "Low"
+if kid >1 and kid <3:
+    kid_risk: "Moderate"
+if kid >2:
+    kid_risk = "High"
+    
+if alz <1:
+    alz_risk = "Very Low"
+if alz >0 and alz <2:
+    alz_risk = "Low"
+if alz >1 and alz <4:
+    alz_risk = "Moderate"
+if alz >3:
+    alz_risk = "High"
+
+if cld <1:
+    cld_risk = "Very Low"
+if cld >0 and cld <3:
+    cld_risk = "Low"
+if cld >2 and cld <6:
+    cld_risk = "Moderate"
+if cld >5:
+    cld_risk = "High"
+    
+if hd_risk == 'Very Low':
+    hd_graph_value = 1
+if hd_risk == 'Low':
+    hd_graph_value = 3
+if hd_risk == 'Moderate':
+    hd_graph_value = 6
+if hd_risk == 'High':
+    hd_graph_value = 10
+
+if cancer_risk == 'Very Low':
+    cancer_graph_value = 1
+if cancer_risk == 'Low':
+    cancer_graph_value = 3
+if cancer_risk == 'Moderate':
+    cancer_graph_value = 6
+if cancer_risk == 'High':
+    cancer_graph_value = 10
+    
+if copd_risk == 'Very Low':
+    copd_graph_value = 1
+if copd_risk == 'Low':
+    copd_graph_value = 3
+if copd_risk == 'Moderate':
+    copd_graph_value = 6
+if copd_risk == 'High':
+    copd_graph_value = 10
+    
+if stroke_risk == 'Very Low':
+    stroke_graph_value = 1
+if stroke_risk == 'Low':
+    stroke_graph_value = 3
+if stroke_risk == 'Moderate':
+    stroke_graph_value = 6
+if stroke_risk == 'High':
+    stroke_graph_value = 10
+    
+if diab_risk == 'Very Low':
+    diab_graph_value = 1
+if diab_risk == 'Low':
+    diab_graph_value = 3
+if diab_risk == 'Moderate':
+    diab_graph_value = 6
+if diab_risk == 'High':
+    diab_graph_value = 10
+    
+if kid_risk == 'Very Low':
+    kid_graph_value = 1
+if kid_risk == 'Low':
+    kid_graph_value = 3
+if kid_risk == 'Moderate':
+    kid_graph_value = 6
+if kid_risk == 'High':
+    kid_graph_value = 10
+    
+if alz_risk == 'Very Low':
+    alz_graph_value = 1
+if alz_risk == 'Low':
+    alz_graph_value = 3
+if alz_risk == 'Moderate':
+    alz_graph_value = 6
+if alz_risk == 'High':
+    alz_graph_value = 10
+    
+if cld_risk == 'Very Low':
+    cld_graph_value = 1
+if cld_risk == 'Low':
+    cld_graph_value = 3
+if cld_risk == 'Moderate':
+    cld_graph_value = 6
+if cld_risk == 'High':
+    cld_graph_value = 10
+
+print("")
+print("")
+print("Your risk of Heart Disease is ", hd_risk)
+print("Your risk of Cancer is ", cancer_risk)
+print("Your risk of Chronic Lower Respiratory Disease is ", copd_risk)
+print("Your risk of Stroke is ", stroke_risk)
+print("Your risk of Diabetes is ", diab_risk)
+print("Your risk of Kidney Disease is ", kid_risk)
+print("Your risk of Alzheimers is ", alz_risk)
+print("Your risk of Chronic Liver Disease is ", cld_risk)
+
+
+if hd_risk == 'High' or cancer_risk == 'High' or copd_risk == 'High' or stroke_risk == 'High'or diab_risk == 'High'or kid_risk == 'High'or alz_risk == 'High'or cld_risk == 'High':
+    print("")
+    print("")
+    print("It seems that you are at high risk for certain diseases.")
+    research_prompt = input("Would you like to do some research? ('Y' or 'N'): ").upper()
+    if research_prompt == 'Y':
+        print("")
+        print("Wonderful")
+        research_choice = input("Which disease would you like to research? ('Heart Disease', 'Cancer', 'Chronic Lower Respiratory Disease', 'Stroke', 'Diabetes', 'Kidney Disease', 'Alzheimers', or 'Chronic Liver Disease'): ").upper()
+        if research_choice == 'HEART DISEASE':
+            webbrowser.open('https://www.mayoclinic.org/diseases-conditions/heart-disease/symptoms-causes/syc-20353118')
+        elif research_choice == 'CANCER':
+            webbrowser.open('https://www.mayoclinic.org/diseases-conditions/cancer/symptoms-causes/syc-20370588')
+        elif research_choice == 'CHRONIC LOWER RESPIRATORY DISEASE':
+            webbrowser.open('https://www.cdc.gov/healthcommunication/toolstemplates/entertainmented/tips/ChronicRespiratoryDisease.html')
+        elif research_choice == 'STROKE':
+            webbrowser.open('https://www.cdc.gov/stroke/')
+        elif research_choice == 'DIABETES':
+            webbrowser.open('https://www.livestrong.com/scat/diabetes/')
+        elif research_choice == 'KIDNEY DISEASE':
+            webbrowser.open('https://www.mayoclinic.org/diseases-conditions/chronic-kidney-disease/symptoms-causes/syc-20354521')
+        elif research_choice == 'ALZHEIMERS':
+            webbrowser.open('https://www.alz.org/')
+        elif research_choice == 'CHRONIC LIVER DISEASE':
+            webbrowser.open('https://www.mayoclinic.org/diseases-conditions/liver-problems/symptoms-causes/syc-20374502')
+        else:
+            print("I'm sorry, that was not a disease on the list.")
+            print("")
+            backup_doctor_search = input("Would you like to find a doctor near you? ('Y' or 'N'): ").upper()
+            if backup_doctor_search == 'Y':
+                webbrowser.open('https://apps.ama-assn.org/doctorfinder/html/patient.jsp')
+            if backup_doctor_search == 'N':
+                print("Okay, we won't help you find a doctor. But remember, keeping track of your health is important. Here is a chart with your full results just in case you change your mind later.")
+    if research_prompt == 'N':
+        print(" ")
+        doctor_prompt = input("Would you like to find a doctor near you? ('Y' or 'N'): ").upper()
+        if doctor_prompt == 'Y':
+            webbrowser.open('https://apps.ama-assn.org/doctorfinder/html/patient.jsp')
+        if doctor_prompt == 'N':
+            print("Okay, we won't help you find a doctor. But remember, keeping track of your health is important. Here is a chart with your full results just in case you change your mind later.")
+    
+    
+else:
+    print("")
+    print("")
+    print("Congratulations! You are healthy! It's still a good idea to keep up with you doctor with an annual physical! Here is a chart with your full results.")
+
+diseaselist = ['Heart Disease', 'Cancer', 'Chronic Lower Respiratory Disease', 'Stroke', 'Diabetes', 'Kidney Disease', 'Alzheimers', 'Chronic Liver Disease']
+risklist = [hd_risk, cancer_risk, copd_risk, stroke_risk, diab_risk, kid_risk, alz_risk, cld_risk]
+diagnosischart = pd.DataFrame({ 'Disease' : diseaselist, 'Risk Level' : risklist,})
+
+diagnosischart
+
+
+
+riskgraph =  pd.DataFrame( {'Disease' :pd.Series( ['Heart Disease', 'Cancer', 'Chronic Lower Respiratory Disease', 'Stroke', 'Diabetes', 'Kidney Disease', 'Alzheimers', 'Chronic Liver Disease'], name='Diseases'), 
+                           'Count' : pd.Series( [hd_graph_value, cancer_graph_value, copd_graph_value, stroke_graph_value, diab_graph_value, kid_graph_value, alz_graph_value, cld_graph_value], name = 'Risk')} )
+
+riskgraph.iplot(kind='bar', x='Disease', y='Count', title='Diseases By Risk Out of Ten', xTitle='Diseases', yTitle='Risk')
+
